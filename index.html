@@ -44,15 +44,15 @@
             z-index: -1;
         }
 
-        .square {
+        .square{
             position: absolute;
-            background: rgba(255, 255, 255, 0.9);
-            animation: moveSquare 20s infinite linear;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(5px);
-        }
+            background: rgba(225, 225, 225, 0.111);
+            border-radius: 10%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: moveSquare 15s linear infinite;
+         }
 
-        @keyframes moveSquare {
+        /* @keyframes moveSquare {
             0% {
                 transform: rotate(0deg) translate(-50%, -50%) scale(1);
                 opacity: 0;
@@ -64,7 +64,29 @@
                 transform: rotate(360deg) translate(-50%, -50%) scale(0);
                 opacity: 0;
             }
-        }
+        } */
+         @keyframes moveSquare {
+            0%{
+                transform: translate(-50%, -50%)scale(0.5);
+                opacity: 0;
+            }
+            25%{
+                transform: translate(30%, 50%)scale(1.2);
+                opacity: 0;
+            }
+            50%{
+                transform: translate(100%, -50%)scale(0.8);
+                opacity: 0;
+            }
+            75%{
+                transform: translate(-30%, 30%)scale(1.1);
+                opacity: 0;
+            }
+            100%{
+                transform: translate(-50%, -50%)scale(0.5);
+                opacity: 0;
+            }
+         }
 
         .container {
             background: transparent;
@@ -82,7 +104,7 @@
     font-size: 1.2rem;
     color: black;
     padding: 10px;
-    animation: slideIn 10s linear  infinite;
+    animation: slideIn 8s ease-in-out infinite;
     white-space: nowrap;
     overflow: hidden;
 }
@@ -218,10 +240,12 @@
                 
                 square.addEventListener('animationend', () => {
                     square.remove();
-                    createSquares();
+                   
                 });
             }
         }
+
+        createSquares();
 
 //         function Check() {
 //             const score = parseInt(document.getElementById('score').value);
