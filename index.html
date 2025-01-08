@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Grading System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(-30deg, #3a05d8, #f43d06, #ed3ab1, #96c93d);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .square {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.9);
+            animation: moveSquare 20s infinite linear;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        @keyframes moveSquare {
+            0% {
+                transform: rotate(0deg) translate(-50%, -50%) scale(1);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: rotate(360deg) translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            background: transparent;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+        }
+        .Welcome {
+    position: relative;
+    font-size: 1.2rem;
+    color: black;
+    padding: 10px;
+    animation: slideIn 10s linear  infinite;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    10% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    40% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #333;
+            font-size: 2rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 2px;
+        }
+        #score {
+            flex: 1;
+            width: 300px;
+        }
+
+        #grade{
+            width: 60%;
+            display: flex;
+            margin: auto;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #fff;
+        }
+
+        button {
+            background:green;
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100px;
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* #result {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        } */
+    </style>
+</head>
+<body>
+    <div class="background" id="background"></div>
+    <div class="container">
+        <p class="Welcome">Welcome to the official grading page</p>
+        <h1><u>GRADING SYSTEM</u></h1>
+        <div class="input-group">
+            <input type="number" id="score" min="0" max="100" placeholder="Enter your score" required>
+            <button onclick="Check()">Check</button>
+        </div>
+        <input type="text"  id="grade" readonly placeholder="See Result here">
+    </div>
+
+    <audio id="successAudio">
+        <source src="excellent.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="veryAudio">
+        <source src="very good.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="goodAudio">
+        <source src="good.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="failAudio">
+        <source src="fail.mp3" type="audio/mpeg">
+    </audio>
+    <script>
+        function createSquares() {
+            const background = document.getElementById('background');
+            for (let i = 0; i < 20; i++) {
+                const square = document.createElement('div');
+                square.classList.add('square');
+                
+                const size = Math.random() * 100 + 50;
+                square.style.width = `${size}px`;
+                square.style.height = `${size}px`;
+                
+                square.style.left = `${Math.random() * 100}%`;
+                square.style.top = `${Math.random() * 100}%`;
+                
+                square.style.animationDuration = `${Math.random() * 20 + 10}s`;
+                square.style.animationDelay = `${Math.random() * 5}s`;
+                
+                background.appendChild(square);
+                
+                square.addEventListener('animationend', () => {
+                    square.remove();
+                    createSquares();
+                });
+            }
+        }
+
+//         function Check() {
+//             const score = parseInt(document.getElementById('score').value);
+//             const result = document.getElementById('grade');
+
+//             if (isNaN(score) || score < 0 || score > 100) {
+//                 result.style.backgroundColor = '#ff6b6b';
+//                 result.style.color = '#fff';
+//                 result.innerHTML = 'Please enter a valid score (0-100)!';
+//                 return;
+//             }
+
+//             let grade;
+//             let color;
+//             if (score >= 75) {
+//     grade = 'A - Excellent';
+//     color = '#4ecdc4';
+// } else if (score >= 69 ) {
+//     grade = 'B - Good';
+//     color = '#96c93d';
+// } else if (score >= 60) {
+//     grade = 'C - Average';
+//     color = '#45b7d1';
+// } else if (score >= 50) {
+//     grade = 'D - Below Average';
+//     color = '#ff9f43';
+// } else if   (score >= 40)  {
+//     grade = 'E - fair';
+//     color = '#ff9f33';
+// } else {
+//     grade = 'F - Fail';
+//     color = '#ff6b6b';
+// }
+
+//             result.style.backgroundColor = color;
+//             result.style.color = '#fff';
+//             result.value = `Grade: ${grade}`;
+//         }
+
+//         createSquares();
+function Check() {
+    const score = parseInt(document.getElementById('score').value);
+    const result = document.getElementById('grade');
+    const successSound = document.getElementById('successAudio');
+    const verySound = document.getElementById('veryAudio');
+    const goodSound = document.getElementById('goodAudio');
+    const failSound = document.getElementById('failAudio');
+
+    if (isNaN(score) || score < 0 || score > 100) {
+        result.style.backgroundColor = '#ff6b6b';
+        result.style.color = '#fff';
+        result.innerHTML = 'Please enter a valid score (0-100)!';
+        failSound.play();
+        return;
+    }
+
+    let grade;
+    let color;
+    if (score >= 75) {
+        grade = 'A - Excellent';
+        color = '#4ecdc4';
+        successSound.play();
+    } else if (score >= 69) {
+        grade = 'B - Good';
+        color = '#96c93d';
+        verySound.play();
+    } else if (score >= 60) {
+        grade = 'C - Average';
+        color = '#45b7d1';
+        goodSound.play();
+    } else if (score >= 50) {
+        grade = 'D - Below Average';
+        color = '#ff9f43';
+        failSound.play();
+    } else if (score >= 40) {
+        grade = 'E - fair';
+        color = '#ff9f33';
+        failSound.play();
+    } else {
+        grade = 'F - Fail';
+        color = '#ff6b6b';
+        failSound.play();
+    }
+
+    result.style.backgroundColor = color;
+    result.style.color = '#fff';
+    result.value = `Grade: ${grade}`;
+}
+
+    </script>
+</body>
+</html>
