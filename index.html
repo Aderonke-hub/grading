@@ -51,20 +51,6 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             animation: moveSquare 15s linear infinite;
          }
-
-        /* @keyframes moveSquare {
-            0% {
-                transform: rotate(0deg) translate(-50%, -50%) scale(1);
-                opacity: 0;
-            }
-            50% {
-                opacity: 0.5;
-            }
-            100% {
-                transform: rotate(360deg) translate(-50%, -50%) scale(0);
-                opacity: 0;
-            }
-        } */
          @keyframes moveSquare {
             0%{
                 transform: translate(-50%, -50%)scale(0.5);
@@ -198,7 +184,8 @@
 <body>
     <div class="background" id="background"></div>
     <div class="container">
-        <p class="Welcome">Welcome to the official grading page</p>
+        <marquee behavior="" direction="right">Welcome to the official grading page</marquee>
+        <!-- <p class="Welcome">Welcome to the official grading page</p> -->
         <h1><u>GRADING SYSTEM</u></h1>
         <div class="input-group">
             <input type="number" id="score" min="0" max="100" placeholder="Enter your score" required>
